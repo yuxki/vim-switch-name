@@ -1,6 +1,6 @@
 function! switchname#test#test_convert(inputs, expectation, target)
   for input in a:inputs
-    let s:result = switchname#switch#ConvertName(input, a:target)
+    let s:result = switchname#convert#ConvertName(input, a:target)
     call assert_equal(a:expectation, s:result, "faild translate ". input . " with " . a:target)
   endfor
 endfunction

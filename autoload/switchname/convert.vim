@@ -1,10 +1,10 @@
 " ============================================================
-" Filename: switch.vim
+" Filename: convert.vim
 " Author: yuxki
 " License: MIT License
 " Last Change: 2021/12/13 11:27:48
 " ============================================================
-function! switchname#switch#ConvertName(name, to_case)
+function! switchname#convert#ConvertName(name, to_case)
   " convert name into intermediate format to convert several cases
   let s:intermidiate_name = substitute(a:name ,'[-_]\+', '_', 'g')
   if a:name =~# '\l' && a:name =~# '\u'
@@ -40,13 +40,4 @@ function! switchname#switch#ConvertName(name, to_case)
     endif
     return s:name
   endif
-endfunction
-
-function! switchname#switch#SwitchName(to_case="")
-  let s:name = GetNameOnCursor(GetNamesInLine(getline('.')))
-
-  " for __var__ and __method patterns
-  let s:pre_su_fix = substitute(s:name, '^\(_*\)[^_]*\(_*$\)', '\1?\2', '')
-  let s:name = substitute(s:name, '^_*\([^_]*\)_*$', '\1', '')
-
 endfunction

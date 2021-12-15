@@ -1,21 +1,23 @@
 " ============================================================
-" Filename: getname.vim
+" Filename: get.vim
 " Author: yuxki
 " License: MIT License
 " Last Change: 2021/12/13 11:27:48
 " ============================================================
 
-function! switchname#getname#GetNameOnCursor(name_poses)
+function! switchname#get#GetNamePosIndexOnCursor(name_poses)
   let s:curpos_row_inline = getcurpos()[2] - 1
+  let s:index = 0
   for name_pos in a:name_poses
     if name_pos[1] <= s:curpos_row_inline && s:curpos_row_inline < name_pos[2]
-      return name_pos[0]
+      return s:index
     endif
+  let s:index += 1
   endfor
-  return ""
+  return -1
 endfunction
 
-function! switchname#getname#GetNamesInLine(line)
+function! switchname#get#GetNamesInLine(line)
   let s:start = 0
   let s:name_poses = []
 
