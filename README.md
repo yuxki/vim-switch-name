@@ -1,0 +1,1 @@
+# vim-switch-name
