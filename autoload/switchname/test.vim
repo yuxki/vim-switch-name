@@ -1,3 +1,6 @@
+let s:save_cpo = &cpo
+set cpo&vim
+
 function! switchname#test#test_convert(inputs, expectation, target)
   for input in a:inputs
     let s:result = switchname#convert#ConvertName(input, a:target)
@@ -41,5 +44,7 @@ if len(v:errors) > 0
 else
   echo "OK"
 endif
-
 endfunction
+
+let &cpo = s:save_cpo
+unlet s:save_cpo

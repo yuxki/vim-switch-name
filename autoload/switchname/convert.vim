@@ -2,8 +2,12 @@
 " Filename: convert.vim
 " Author: yuxki
 " License: MIT License
-" Last Change: 2021/12/13 11:27:48
+" Last Change: 2021/12/15 23:27:13
 " ============================================================
+
+let s:save_cpo = &cpo
+set cpo&vim
+
 function! switchname#convert#ConvertName(name, to_case)
   " convert name into intermediate format to convert several cases
   let s:intermidiate_name = substitute(a:name ,'[-_]\+', '_', 'g')
@@ -41,3 +45,6 @@ function! switchname#convert#ConvertName(name, to_case)
     return s:name
   endif
 endfunction
+
+let &cpo = s:save_cpo
+unlet s:save_cpo

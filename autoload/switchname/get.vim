@@ -2,8 +2,11 @@
 " Filename: get.vim
 " Author: yuxki
 " License: MIT License
-" Last Change: 2021/12/13 11:27:48
+" Last Change: 2021/12/15 23:27:32
 " ============================================================
+
+let s:save_cpo = &cpo
+set cpo&vim
 
 function! switchname#get#GetNamePosIndexOnCursor(name_poses)
   let s:curpos_row_inline = getcurpos()[2] - 1
@@ -31,3 +34,6 @@ function! switchname#get#GetNamesInLine(line)
   endwhile
   return s:name_poses
 endfunction
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
