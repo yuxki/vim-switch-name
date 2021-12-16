@@ -8,39 +8,11 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! switchname#SwitchName(to_case)
-  let s:line = getline('.')
-  let s:name_poses = switchname#get#GetNamesInLine(s:line)
-  let s:index = switchname#get#GetNamePosIndexOnCursor(s:name_poses)
-
-  if s:index < 0
-    return
-  endif
-
-  " adjust __member and __NAME__ naming patterns
-  let s:name = s:name_poses[s:index][0]
-
-  let s:prefix_pos = matchstrpos(s:name, '^_\+')
-  if s:prefix_pos[1] >= 0
-    let s:name = s:name[s:prefix_pos[2]:]
-  endif
-
-  let s:sufix_pos = matchstrpos(s:name, '_\+$')
-  if s:sufix_pos[1] >= 0
-    let s:name = s:name[:s:sufix_pos[1] - 1]
-  endif
-
-  let s:repl = s:prefix_pos[0] . switchname#convert#ConvertName(s:name, a:to_case) . s:sufix_pos[0]
-  return s:repl
-endfunction
-
-function! switchname#SetName(repl, line)
-  let s:name_poses = switchname#get#GetNamesInLine(a:line)
-  let s:index = switchname#get#GetNamePosIndexOnCursor(s:name_poses)
-  if :s:name_poses[s:index][1] - 1 >= 0
-    let s:repl_line = a:line[0:s:name_poses[s:index][1] - 1] . a:repl . a:line[s:name_poses[s:index][2]:]
+function! switchname#SetName(repl, line, pos)
+  if a:pos[1] - 1 >= 0
+    let s:repl_line = a:line[0:a:pos[1] - 1] . a:repl . a:line[a:pos[2]:]
   else
-    let s:repl_line = a:repl . a:line[s:name_poses[s:index][2]:]
+    let s:repl_line = a:repl . a:line[a:pos[1][2]:]
   endif
   call setline('.', s:repl_line)
 endfunction
@@ -55,6 +27,16 @@ function! s:IsStrInList(list, str)
 endfunction
 
 function! switchname#OpenSwitchMenu()
+  let s:line = getline('.')
+  let s:name_poses = switchname#get#GetNamesInLine(s:line)
+  let s:index = switchname#get#GetNamePosIndexOnCursor(s:name_poses)
+
+  if s:index < 0
+    return
+  endif
+
+  let s:name = s:name_poses[s:index][0]
+
   let s:cases = [
         \  'UpperCamelCase',
         \ 'lowerCamelCase',
@@ -65,28 +47,28 @@ function! switchname#OpenSwitchMenu()
         \ ]
 
   let s:repls = []
-  let s:repl_choices = []
-  let s:idx = 0
-  for c in s:cases
-    let s:r = switchname#SwitchName(c)
-    if !s:IsStrInList(s:repls, s:r)
-      call add(s:repls, s:r)
-      call add(s:repl_choices, string(s:idx) . '.'. s:r)
-      let s:idx += 1
+  let s:repl_options = []
+  let s:repls_index = 0
+  for cs in s:cases
+    let s:repl = switchname#switch#SwitchName(s:name, cs)
+    if !s:IsStrInList(s:repls, s:repl)
+      call add(s:repls, s:repl)
+      call add(s:repl_options, string(s:repls_index) . '.'. s:repl)
+      let s:repls_index += 1
     endif
   endfor
 
   function! __SwitchNameFilter(winid, key)
-    if a:key =~# '\d' && a:key >= 0 && a:key < s:idx
-      call switchname#SetName(s:repls[a:key], getline('.'))
+    if a:key =~# '\d' && a:key >= 0 && a:key < s:repls_index
+      call switchname#SetName(s:repls[a:key], s:line, s:name_poses[s:index])
+      call popup_close(a:winid)
     endif
-    call popup_close(a:winid)
-    return 0
+    return 1
   endfunction
 
-  call popup_atcursor(s:repl_choices,
+  call popup_atcursor(s:repl_options,
         \#{
-        \ close: 'button',
+        \ title: ' --switch name-- ',
         \ highlight: 'Pmenu',
         \ padding: [0, 2, 0, 2],
         \ filter: '__SwitchNameFilter',
