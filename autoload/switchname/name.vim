@@ -60,7 +60,8 @@ function! switchname#name#SetRepl(repl, line, pos)
   if a:pos[1] - 1 >= 0
     let s:repl_line = a:line[0:a:pos[1] - 1] . a:repl . a:line[a:pos[2]:]
   else
-    let s:repl_line = a:repl . a:line[a:pos[1][2]:]
+    echo a:pos
+    let s:repl_line = a:repl . a:line[a:pos[2]:]
   endif
   call setline('.', s:repl_line)
 endfunction
