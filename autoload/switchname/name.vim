@@ -8,7 +8,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! switchname#get#GetNamePosIndexOnCursor(name_poses)
+function! switchname#name#GetPosIndexOnCursor(name_poses)
   let s:curpos_row_inline = getcurpos()[2] - 1
   let s:index = 0
   for name_pos in a:name_poses
@@ -20,7 +20,7 @@ function! switchname#get#GetNamePosIndexOnCursor(name_poses)
   return -1
 endfunction
 
-function! switchname#get#GetNamesInLine(line)
+function! switchname#name#GetPosesInLine(line)
   let s:start = 0
   let s:name_poses = []
 
@@ -37,7 +37,7 @@ endfunction
 
 " adjust __member and __NAME__ naming patterns
 " return list ['body', 'prefix', 'sufix']
-function! switchname#get#SplitName(name)
+function! switchname#name#Split(name)
   let s:body = a:name
 
   let s:prefix_pos = matchstrpos(s:body, '^_\+')
@@ -55,3 +55,12 @@ endfunction
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
+
+function! switchname#name#SetRepl(repl, line, pos)
+  if a:pos[1] - 1 >= 0
+    let s:repl_line = a:line[0:a:pos[1] - 1] . a:repl . a:line[a:pos[2]:]
+  else
+    let s:repl_line = a:repl . a:line[a:pos[1][2]:]
+  endif
+  call setline('.', s:repl_line)
+endfunction
