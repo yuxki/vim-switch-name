@@ -8,42 +8,65 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! switchname#convert#ConvertName(name, to_case)
-  " convert name into intermediate format to convert several cases
-  let s:intermidiate_name = substitute(a:name ,'[-_]\+', '_', 'g')
+function! switchname#convert#MakeIntermidiate(name)
+  let s:itmdt_name = substitute(a:name ,'[-_]\+', '_', 'g')
   if a:name =~# '\l' && a:name =~# '\u'
-    let s:intermidiate_name = substitute(s:intermidiate_name, '\(\u\)',  '_\1', 'g')
+    let s:itmdt_name = substitute(s:itmdt_name, '\(\u\)',  '_\1', 'g')
   endif
-  let s:intermidiate_name = substitute(s:intermidiate_name, '^_', '', '')
+  let s:itmdt_name = substitute(s:itmdt_name, '^_', '', '')
+  return s:itmdt_name
+endfunction
 
-  let s:name = s:intermidiate_name
+function! switchname#convert#ForkToUpperCamel(itmdt)
+  return substitute(
+          \substitute(a:itmdt, '\([a-zA-Z]\)\([a-zA-Z]*\)\C', '\=toupper(submatch(1)).tolower(submatch(2))', 'g')
+          \, '_', '', 'g')
+endfunction
 
-  if a:to_case == "UpperCamelCase" || a:to_case == "lowerCamelCase"
-    let s:name = substitute(s:name, '\([a-zA-Z]\)\([a-zA-Z]*\)\C', '\=toupper(submatch(1)).tolower(submatch(2))', 'g')
-    if a:to_case == "lowerCamelCase"
-      let s:name = substitute(s:name, '\(\u\)', '\=tolower(submatch(1))', '')
-    endif
-    return substitute(s:name, '_', '', 'g')
-  endif
+function! switchname#convert#ForkToLowerCamel(itmdt)
+  return substitute(
+          \ switchname#convert#ForkToUpperCamel(a:itmdt),
+          \  '\(\u\)', '\=tolower(submatch(1))', '')
+endfunction
 
-  if a:to_case == "lower_snake_case" || a:to_case == "UPPER_SNAKE_CASE"
-    if a:to_case == "lower_snake_case"
-      let s:name = tolower(s:name)
-    else
-      let s:name = toupper(s:name)
-    endif
-    return s:name
-  endif
+function! switchname#convert#ForkToUpperSnake(itmdt)
+  return toupper(a:itmdt)
+endfunction
 
-  if a:to_case == "lower-kebab-case" || a:to_case == "UPPER-KEBAB-CASE"
-    let s:name = substitute(s:name, '_', '-', 'g')
-    if a:to_case == "lower-kebab-case"
-      let s:name = tolower(s:name)
-    else
-      let s:name = toupper(s:name)
-    endif
-    return s:name
-  endif
+function! switchname#convert#ForkToLowerSnake(itmdt)
+  return toupper(a:itmdt)
+endfunction
+
+function! switchname#convert#ForkToUpperKebab(itmdt)
+  return toupper(substitute(a:itmdt, '_', '-', 'g'))
+endfunction
+
+function! switchname#convert#ForkToLowerKebab(itmdt)
+  return tolower(substitute(a:itmdt, '_', '-', 'g'))
+endfunction
+
+function! switchname#convert#ConvertToUpperCamel(name)
+  return switchname#convert#ForkToUpperCamel(switchname#convert#MakeIntermidiate(a:name))
+endfunction
+
+function! switchname#convert#ConvertToLowerCamel(name)
+  return switchname#convert#ForkToLowerCamel(switchname#convert#MakeIntermidiate(a:name))
+endfunction
+
+function! switchname#convert#ConvertToUpperSnake(name)
+  return switchname#convert#ForkToUpperSnake(switchname#convert#MakeIntermidiate(a:name))
+endfunction
+
+function! switchname#convert#ConvertToLowerSnake(name)
+  return switchname#convert#ForkToLowerSnake(switchname#convert#MakeIntermidiate(a:name))
+endfunction
+
+function! switchname#convert#ConvertToUpperKebab(name)
+  return switchname#convert#ForkToUpperKebab(switchname#convert#MakeIntermidiate(a:name))
+endfunction
+
+function! switchname#convert#ConvertToLowerKebab(name)
+  return switchname#convert#ForkToLowerKebab(switchname#convert#MakeIntermidiate(a:name))
 endfunction
 
 let &cpo = s:save_cpo

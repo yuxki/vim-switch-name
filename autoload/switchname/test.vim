@@ -3,7 +3,20 @@ set cpo&vim
 
 function! switchname#test#test_convert(inputs, expectation, target)
   for input in a:inputs
-    let s:result = switchname#convert#ConvertName(input, a:target)
+    let s:result = ""
+    if a:target == "UpperCamelCase"
+      let s:result = switchname#convert#ConvertToUpperCamel(input)
+    elseif a:target == "lowerCamelCase"
+      let s:result = switchname#convert#ConvertToLowerCamel(input)
+    elseif a:target == "lower_snake_case"
+      let s:result = switchname#convert#ConvertToLowerSnake(input)
+    elseif a:target == "UPPER_SNAKE_CASE"
+      let s:result = switchname#convert#ConvertToUpperSnake(input)
+    elseif a:target == "lower-kebab-case"
+      let s:result = switchname#convert#ConvertToLowerKebab(input)
+    elseif a:target == "UPPER-KEBAB-CASE"
+      let s:result = switchname#convert#ConvertToUpperKebab(input)
+    endif
     call assert_equal(a:expectation, s:result, "faild translate ". input . " with " . a:target)
   endfor
 endfunction

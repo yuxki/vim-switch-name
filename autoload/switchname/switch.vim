@@ -25,5 +25,22 @@ function! switchname#switch#SwitchName(name, to_case)
   return s:repl
 endfunction
 
+function! switchname#switch#ForkName(itmdt, to_case)
+    if a:to_case == 'UpperCamelCase'
+      return switchname#convert#ForkToUpperCamel(a:itmdt)
+    elseif a:to_case == 'lowerCamelCase'
+      return switchname#convert#ForkToLowerCamel(a:itmdt)
+    elseif a:to_case == 'UPPER_SNAKE_CASE'
+      return switchname#convert#ForkToUpperSnake(a:itmdt)
+    elseif a:to_case == 'lower_snake_case'
+      return switchname#convert#ForkToLowerSnake(a:itmdt)
+    elseif a:to_case == 'UPPER-KEBAB-CASE'
+      return switchname#convert#ForkToUpperKebab(a:itmdt)
+    elseif a:to_case == 'lower-kebab-case'
+      return switchname#convert#ForkToLowerKebab(a:itmdt)
+    endif
+    return ''
+endfunction
+
 let &cpo = s:save_cpo
 unlet s:save_cpo

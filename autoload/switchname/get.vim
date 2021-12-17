@@ -35,5 +35,23 @@ function! switchname#get#GetNamesInLine(line)
   return s:name_poses
 endfunction
 
+" adjust __member and __NAME__ naming patterns
+" return list ['body', 'prefix', 'sufix']
+function! switchname#get#SplitName(name)
+  let s:body = a:name
+
+  let s:prefix_pos = matchstrpos(s:body, '^_\+')
+  if s:prefix_pos[1] >= 0
+    let s:body = s:body[s:prefix_pos[2]:]
+  endif
+
+  let s:sufix_pos = matchstrpos(s:body, '_\+$')
+  if s:sufix_pos[1] >= 0
+    let s:body = s:body[:s:sufix_pos[1] - 1]
+  endif
+
+  return [s:body, s:prefix_pos[0], s:sufix_pos[0]]
+endfunction
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
