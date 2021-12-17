@@ -20,19 +20,10 @@ function! switchname#OpenSwitchMenu()
   let s:splited = switchname#name#Split(s:name_poses[s:index][0])
   let s:itmdt = switchname#convert#MakeIntermidiate(s:splited[0])
 
-  let s:cases = [
-        \  'UpperCamelCase',
-        \ 'lowerCamelCase',
-        \ 'UPPER_SNAKE_CASE',
-        \ 'lower_snake_case',
-        \ 'UPPER-KEBAB-CASE',
-        \ 'lower-kebab-case',
-        \ ]
-
   let s:repls = []
   let s:repl_options = []
   let s:repls_index = 0
-  for cs in s:cases
+  for cs in g:switchname_cases
     let s:repl = s:splited[1] . switchname#convert#ForkName(s:itmdt, cs) . s:splited[2]
     if !switchname#utils#IsStrInList(s:repls, s:repl)
       call add(s:repls, s:repl)
