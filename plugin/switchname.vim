@@ -46,7 +46,7 @@ if g:switchname_popup_lower_kebab == 1
 endif
 
 command! Switchname :call switchname#OpenSwitchMenu()
-nnoremap <F2> :Switchname<CR>
+noremap <silent> <F2> :call switchname#OpenSwitchMenu()<CR>
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
