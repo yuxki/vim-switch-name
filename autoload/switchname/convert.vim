@@ -35,7 +35,7 @@ function! switchname#convert#ForkToUpperSnake(itmdt)
 endfunction
 
 function! switchname#convert#ForkToLowerSnake(itmdt)
-  return toupper(a:itmdt)
+  return tolower(a:itmdt)
 endfunction
 
 function! switchname#convert#ForkToUpperKebab(itmdt)
