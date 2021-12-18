@@ -1,5 +1,7 @@
 if exists('g:loaded_switchname')
   finish
+elseif v:version < 802
+  echoerr "This plugin needs Vim 8.2+ functions"
 endif
 let g:loaded_switch_name = 1
 
@@ -45,8 +47,13 @@ if g:switchname_popup_lower_kebab == 1
   call add(g:switchname_cases, 'lower-kebab-case')
 endif
 
-command! Switchname :call switchname#OpenSwitchMenu()
-noremap <silent> <F2> :call switchname#OpenSwitchMenu()<CR>
+call switchname#MapSwitchNameOnCursor('ToUpperCamel')
+call switchname#MapSwitchNameOnCursor('ToLowerCamel')
+call switchname#MapSwitchNameOnCursor('ToLowerSnake')
+call switchname#MapSwitchNameOnCursor('ToUpperSnake')
+call switchname#MapSwitchNameOnCursor('ToLowerKebab')
+call switchname#MapSwitchNameOnCursor('ToUpperKebab')
+command! SwitchName :call switchname#OpenSwitchMenu()
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

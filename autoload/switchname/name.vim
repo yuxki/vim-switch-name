@@ -37,7 +37,7 @@ endfunction
 
 " adjust __member and __NAME__ naming patterns
 " return list ['body', 'prefix', 'sufix']
-function! switchname#name#Split(name)
+function! switchname#name#SplitFixes(name)
   let s:body = a:name
 
   let s:prefix_pos = matchstrpos(s:body, '^_\+')
@@ -50,7 +50,7 @@ function! switchname#name#Split(name)
     let s:body = s:body[:s:sufix_pos[1] - 1]
   endif
 
-  return [s:body, s:prefix_pos[0], s:sufix_pos[0]]
+  return {'name': s:body, 'prefix': s:prefix_pos[0], 'sufix': s:sufix_pos[0] }
 endfunction
 
 let &cpo = s:save_cpo

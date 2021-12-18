@@ -5,22 +5,23 @@ function! switchname#test#test_convert(inputs, expectation, target)
   for input in a:inputs
     let s:result = ""
     if a:target == "UpperCamelCase"
-      let s:result = switchname#convert#ConvertToUpperCamel(input)
+      let s:result = switchname#convert#ToUpperCamel(input)
     elseif a:target == "lowerCamelCase"
-      let s:result = switchname#convert#ConvertToLowerCamel(input)
+      let s:result = switchname#convert#ToLowerCamel(input)
     elseif a:target == "lower_snake_case"
-      let s:result = switchname#convert#ConvertToLowerSnake(input)
+      let s:result = switchname#convert#ToLowerSnake(input)
     elseif a:target == "UPPER_SNAKE_CASE"
-      let s:result = switchname#convert#ConvertToUpperSnake(input)
+      let s:result = switchname#convert#ToUpperSnake(input)
     elseif a:target == "lower-kebab-case"
-      let s:result = switchname#convert#ConvertToLowerKebab(input)
+      let s:result = switchname#convert#ToLowerKebab(input)
     elseif a:target == "UPPER-KEBAB-CASE"
-      let s:result = switchname#convert#ConvertToUpperKebab(input)
+      let s:result = switchname#convert#ToUpperKebab(input)
     endif
     call assert_equal(a:expectation, s:result, "faild translate ". input . " with " . a:target)
   endfor
 endfunction
 
+" TODO add test routine
 function! switchname#test#run()
 let v:errors = []
 

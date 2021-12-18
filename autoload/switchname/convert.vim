@@ -8,6 +8,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+" TODO add new case
 function! switchname#convert#MakeIntermidiate(name)
   let s:itmdt_name = substitute(a:name ,'[-_]\+', '_', 'g')
   if a:name =~# '\l' && a:name =~# '\u'
@@ -45,31 +46,7 @@ function! switchname#convert#ForkToLowerKebab(itmdt)
   return tolower(substitute(a:itmdt, '_', '-', 'g'))
 endfunction
 
-function! switchname#convert#ConvertToUpperCamel(name)
-  return switchname#convert#ForkToUpperCamel(switchname#convert#MakeIntermidiate(a:name))
-endfunction
-
-function! switchname#convert#ConvertToLowerCamel(name)
-  return switchname#convert#ForkToLowerCamel(switchname#convert#MakeIntermidiate(a:name))
-endfunction
-
-function! switchname#convert#ConvertToUpperSnake(name)
-  return switchname#convert#ForkToUpperSnake(switchname#convert#MakeIntermidiate(a:name))
-endfunction
-
-function! switchname#convert#ConvertToLowerSnake(name)
-  return switchname#convert#ForkToLowerSnake(switchname#convert#MakeIntermidiate(a:name))
-endfunction
-
-function! switchname#convert#ConvertToUpperKebab(name)
-  return switchname#convert#ForkToUpperKebab(switchname#convert#MakeIntermidiate(a:name))
-endfunction
-
-function! switchname#convert#ConvertToLowerKebab(name)
-  return switchname#convert#ForkToLowerKebab(switchname#convert#MakeIntermidiate(a:name))
-endfunction
-
-function! switchname#convert#ForkName(itmdt, to_case)
+function! switchname#convert#Fork(itmdt, to_case)
     if a:to_case == 'UpperCamelCase'
       return switchname#convert#ForkToUpperCamel(a:itmdt)
     elseif a:to_case == 'lowerCamelCase'
@@ -84,6 +61,30 @@ function! switchname#convert#ForkName(itmdt, to_case)
       return switchname#convert#ForkToLowerKebab(a:itmdt)
     endif
     return ''
+endfunction
+
+function! switchname#convert#ToUpperCamel(name)
+  return switchname#convert#ForkToUpperCamel(switchname#convert#MakeIntermidiate(a:name))
+endfunction
+
+function! switchname#convert#ToLowerCamel(name)
+  return switchname#convert#ForkToLowerCamel(switchname#convert#MakeIntermidiate(a:name))
+endfunction
+
+function! switchname#convert#ToUpperSnake(name)
+  return switchname#convert#ForkToUpperSnake(switchname#convert#MakeIntermidiate(a:name))
+endfunction
+
+function! switchname#convert#ToLowerSnake(name)
+  return switchname#convert#ForkToLowerSnake(switchname#convert#MakeIntermidiate(a:name))
+endfunction
+
+function! switchname#convert#ToUpperKebab(name)
+  return switchname#convert#ForkToUpperKebab(switchname#convert#MakeIntermidiate(a:name))
+endfunction
+
+function! switchname#convert#ToLowerKebab(name)
+  return switchname#convert#ForkToLowerKebab(switchname#convert#MakeIntermidiate(a:name))
 endfunction
 
 let &cpo = s:save_cpo
