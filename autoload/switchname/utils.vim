@@ -2,7 +2,7 @@
 " Filename: utils.vim
 " Author: yuxki
 " License: MIT License
-" Last Change: 2021/12/17 00:53:24
+" Last Change: 2021/12/19 00:28:15
 " ============================================================
 
 function! switchname#utils#IsStrInList(list, str)

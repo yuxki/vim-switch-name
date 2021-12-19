@@ -2,7 +2,7 @@
 " Filename: get.vim
 " Author: yuxki
 " License: MIT License
-" Last Change: 2021/12/15 23:27:32
+" Last Change: 2021/12/19 00:27:02
 " ============================================================
 
 let s:save_cpo = &cpo

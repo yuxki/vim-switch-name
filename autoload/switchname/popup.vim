@@ -2,7 +2,7 @@
 " Filename: popup.vim
 " Author: yuxki
 " License: MIT License
-" Last Change: 2021/12/17 10:58:07
+" Last Change: 2021/12/19 00:27:35
 " ============================================================
 
 let s:popup_filter = {}

@@ -21,7 +21,6 @@ function! switchname#test#test_convert#test_convert(inputs, expectation, target)
   endfor
 endfunction
 
-" TODO add test routine
 function! switchname#test#test_convert#run()
 let v:errors = []
 
@@ -50,14 +49,6 @@ call switchname#test#test_convert(s:inputs, s:expectation, "lower-kebab-case")
 "===========Test UPPER_SNAKE_CASE===========
 let s:expectation = 'AA-BB-CC'
 call switchname#test#test_convert(s:inputs, s:expectation, "UPPER-KEBAB-CASE")
-
-if len(v:errors) > 0
-  for err in v:errors
-    echo err
-  endfor
-else
-  echo "OK"
-endif
 endfunction
 
 let &cpo = s:save_cpo
