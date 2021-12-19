@@ -10,7 +10,7 @@ set cpo&vim
 
 " popup filter callback
 let s:callback = {}
-function s:callback.invoke(key) dict
+function! s:callback.invoke(key) dict
   call switchname#name#SetRepl(self.repls[a:key], self.line, self.pos)
 endfunction
 
