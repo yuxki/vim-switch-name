@@ -1,6 +1,7 @@
-# vim-switch-name
+## vim-switch-name
 ## Contents
  - [Introduction](#introduction)
+ - [Installation](#installation)
  - [Usage](#usage)
  - [Options](#options)
  - [ByFunction](#byfunction)
@@ -9,6 +10,12 @@
 ___switchname___ is Easy and Quick variable name case converting tool.
 
 ![Demo1](assets/switchname_demo.gif?raw=true)
+
+## Installation
+__vim-plug__
+```
+Plug 'yuxki/vim-switch-name'
+```
 
 ## Usage
 oint cursor at "name" and run this command.
@@ -45,7 +52,7 @@ cases that you don't use much, hide(0) them in .vimrc and restart Vim.
 |g:switchname_popup_lower_kebab|switchname-popup-lower-kebab|1|
 
 ## Others
-### ByFunction
+#### ByFunction
 ```switchname#switch#SwitchNameOnCursor({case})``` switchs name on cursor by argument.
 {case} argument has bellow options at version 1.0 and mapped Plugs.
 |Argument|Mapped|Case|
