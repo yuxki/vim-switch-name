@@ -1,0 +1,150 @@
+*switchname.txt*	For Vim version 8.2 	Last change: 2021/12/19
+Supports naming variable at coding by switching case easy and quickly.
+
+Version: 1.0
+Author: Yuxki
+License: MIT License
+Repository: https://github.com/yuxki/vim-switch-name
+
+==============================================================================
+CONTENTS 						*switchname-contents*
+
+Introduction		|switchname-introduction|
+Usage			|switchname-usage|
+Install			|switchname-install|
+Interface		|switchname-interface|
+  Functions		  |switchname-functions|
+  Variables	 	  |switchname-variables|
+Maps			|switchname-interface|
+
+==============================================================================
+INTRODUCTION						*switchname-introduction*
+
+*switchname* is Easy and Quick variable name case converting tool.
+
+==============================================================================
+USAGE							*switchname-usage*
+
+Point cursor at "name" and run this command.
+>
+ :SwitchName
+<
+Then, the popup like bellow example is displayed. Press a number key next to
+converted "name".
+>
+ +-----------------+
+ | --switchname-- X|
+ | 0: SampleName   |
+ | 1: sampleName   |
+ | 2: SAMPLE_NAME  |
+ | 3: sample_name  |
+ | 4: SAMPLE-NAME  |
+ | 5: sample-name  |
+ +-----------------+
+<
+If press non-number key is pressed, popup is closed.
+
+Note: A "name" is words matched by '[a-zA-Z_\-0-9]\+\C' in this plugin.
+
+==============================================================================
+INTERFACE						*switchname-interface*
+
+------------------------------------------------------------------------------
+FUNCTIONS						*switchname-functions*
+
+						*switchname#OpenSwitchMenu()*
+switchname#OpenSwitchMenu({options})
+		Open switching name case popup and switch name case on
+		cursor. The popup is displayed by bellow options that works
+		like |popup_atcursor|. {options} argument overrides that
+		options except "close" and "filter".
+>
+  title: ' --switch name-- ',
+  pos: 'botleft',
+  line: 'cursor-1',
+  col: 'cursor',
+  moved: 'any',
+  highlight: 'Pmenu',
+  padding: [0, 2, 0, 2],
+<
+					*switchname#switch#SwitchNameOnCursor()*
+switchname#switch#SwitchNameOnCursor({case})
+		Switch name on cursor by argument {case}. {case} has these
+		options at version 1.0.
+>
+ 'ToUpperCamel': ToUpperCamel
+ 'ToLowerCamel': toLowerCamel
+ 'ToUpperSnake': TO_UPPER_SNAKE
+ 'ToLowerSnake': to_lower_snake
+ 'ToUpperKebab': TO-UPPER-KEBAB
+ 'ToLowerKebab': to-lower-kebab
+<
+------------------------------------------------------------------------------
+VARIABLES						*switchname-variables*
+
+There are options to visible(1) and hide(0) cases on the popup. If there are
+cases that you don't use much, hide(0) them in .vimrc and restart Vim.
+
+						*g:switchname_popup_upper_camel*
+g:switchname_popup_upper_camel
+		'SwitchnamePopupUpperCamel'
+		Default: "1"
+
+						*g:switchname_popup_lower_camel*
+g:switchname_popup_lower_camel
+		'switchnamePopupLowerCamel'
+		Default: "1"
+
+						*g:switchname_popup_upper_snake*
+g:switchname_popup_upper_snake
+		'SWITCHNAME_POPUP_UPPER_SNAKE'
+		Default: "1"
+
+						*g:switchname_popup_lower_snake*
+g:switchname_popup_lower_snake
+		'switchname_popup_lower_snake'
+		Default: "1"
+
+						*g:switchname_popup_upper_kebab*
+g:switchname_popup_upper_kebab
+		'SWITCHNAME-POPUP-UPPER-KEBAB'
+		Default: "1"
+
+						*g:switchname_popup_lower_kebab*
+g:switchname_popup_lower_kebab
+		'switchname-popup-lower-kebab'
+		Default: "1"
+
+==============================================================================
+MAPS							*switchname-maps*
+
+:SwitchName
+>
+	:call switchname#OpenSwitchMenu()
+<
+<Plug>SwitchNameOnCursorToUpperKebab
+>
+	:call switchname#switch#SwitchNameOnCursor("ToUpperKebab")<CR>
+<
+<Plug>SwitchNameOnCursorToLowerKebab
+>
+	:call switchname#switch#SwitchNameOnCursor("ToLowerKebab")<CR>
+<
+<Plug>SwitchNameOnCursorToUpperSnake
+>
+	:call switchname#switch#SwitchNameOnCursor("ToUpperSnake")<CR>
+<
+<Plug>SwitchNameOnCursorToLowerSnake
+>
+	:call switchname#switch#SwitchNameOnCursor("ToLowerSnake")<CR>
+<
+<Plug>SwitchNameOnCursorToLowerCamel
+>
+	:call switchname#switch#SwitchNameOnCursor("ToLowerCamel")<CR>
+<
+<Plug>SwitchNameOnCursorToUpperCamel
+>
+	:call switchname#switch#SwitchNameOnCursor("ToUpperCamel")<CR>
+<
+==============================================================================
+ vim:tw=78:ts=8:noet:ft=help:norl:
