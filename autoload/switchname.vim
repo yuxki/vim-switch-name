@@ -14,7 +14,7 @@ function! s:callback.invoke(key) dict
   call switchname#name#SetRepl(self.repls[a:key], self.line, self.pos)
 endfunction
 
-function! switchname#OpenSwitchMenu()
+function! switchname#OpenSwitchMenu(popup_options= #{})
   let s:line = getline('.')
   let s:name_poses = switchname#name#GetPosesInLine(s:line)
   let s:index = switchname#name#GetPosIndexOnCursor(s:name_poses)
@@ -51,11 +51,15 @@ function! switchname#OpenSwitchMenu()
   \ padding: [0, 2, 0, 2],
   \ }
 
+  for [key, value] in items(a:popup_options)
+    let s:popup_options[key] = value
+  endfor
+
   call switchname#popup#Open(s:repls, s:callback, s:popup_options)
 endfunction
 
 function! switchname#MapSwitchNameOnCursor(convert_func)
-  exec 'nnoremap <silent> <Plug>SwitchNameOnCursor'.a:convert_func.' switchname#switch#SwitchNameOnCursor'.'("'.a:convert_func.'")<CR>'
+  exec 'nnoremap <silent> <Plug>SwitchNameOnCursor'.a:convert_func.' :call switchname#switch#SwitchNameOnCursor'.'("'.a:convert_func.'")<CR>'
 endfunction
 
 let &cpo = s:save_cpo
