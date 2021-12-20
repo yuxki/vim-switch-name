@@ -7,13 +7,11 @@
 
 let s:popup_filter = {}
 function! s:popup_filter.invoke(winid, key) dict
-  if a:key =~# '\a' || a:key =~# ':'
-    call popup_close(a:winid)
-  elseif len(a:key) == 1 && a:key =~# '\d' && a:key >= 0 && a:key < self.max_index
+  if len(a:key) == 1 && a:key =~# '\d' && a:key >= 0 && a:key < self.max_index
     call self.callback.invoke(a:key)
     call popup_close(a:winid)
   endif
-  return 1
+  return 0
 endfunction
 
 function! s:CallPopupFilter(winid, key)
@@ -30,7 +28,7 @@ function! switchname#popup#Open(what, callback, options)
     return
   endif
 
-  let s:options = #{ close: 'button', filter: '<SNR>'.s:GetScriptNumber().'_CallPopupFilter' }
+  let s:options = #{ close: 'none', filter: '<SNR>'.s:GetScriptNumber().'_CallPopupFilter' }
   for [key, value] in items(a:options)
     let s:options[key] = value
   endfor
